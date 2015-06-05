@@ -66,23 +66,36 @@ public class CurrencyRates extends Controller {
         return ok(allRates.render(names, values, changes));
     }
 
-//    @Security.Authenticated(Secured.class)
-//    //@BodyParser.Of(BodyParser.Json.class)
-//    public static Result my() {
-//        ObjectNode result = Json.newObject();
-//        result.put("test", "ok");
-//        return ok(result);
-//    }
+    @Security.Authenticated(Secured.class)
+    //@BodyParser.Of(BodyParser.Json.class)
+    public static Result my() {
+        ObjectNode result = Json.newObject();
+        User user = User.findByEmail(request().username());
+        List<Followers> followed = Followers.findAllFollowedByUser(user.id);
+        for (Followers f : followed) {
+            ExchangeRate er = ExchangeRate.findById(f.exchangeRateId);
+            result.put(er.id.toString(), er.name);
+        }
+        return ok(result);
+    }
 
-//    @Security.Authenticated(Secured.class)
-//    public static Result follow(String rateName) {
-//        User user = User.findByEmail(request().username());
-//        ExchangeRate exchangeRate = ExchangeRate.findByName(rateName);
-//        Followers f = new Followers();
-//        f.userId = user.id;
-//        f.exchangeRateId = exchangeRate.id;
-//        Ebean.save(f);
-//        // TODO do zmiany
-//        return all();
-//    }
+    @Security.Authenticated(Secured.class)
+    public static Result follow(String rateName) {
+        User user = User.findByEmail(request().username());
+        ExchangeRate exchangeRate = ExchangeRate.findByName(rateName);
+        Followers f = new Followers();
+        f.userId = user.id;
+        f.exchangeRateId = exchangeRate.id;
+        Ebean.save(f);
+        // TODO do zmiany
+        return all();
+    }
+
+    @Security.Authenticated(Secured.class)
+    public static Result unfollow(String rateName) {
+        User user = User.findByEmail(request().username());
+        ExchangeRate exchangeRate = ExchangeRate.findByName(rateName);
+        Followers.unfollow(user.id, exchangeRate.id);
+        return all();
+    }
 }

@@ -29,4 +29,8 @@ public class ExchangeRate extends Model {
     public static ExchangeRate findByName(String name) {
         return finder.where().eq("name", name).findUnique();
     }
+
+    public static ExchangeRate findById(Long id) {
+        return finder.where().eq("id", id).findUnique();
+    }
 }

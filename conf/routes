@@ -39,5 +39,10 @@ GET         /assets/*file                 controllers.Assets.at(path="/public", 
 GET         /allRates                     controllers.CurrencyRates.all()
 GET         /rate/*name                   controllers.CurrencyRates.details(name: String)
 
+# Followed
+GET         /follow/*name                 controllers.CurrencyRates.follow(name: String)
+GET         /unfollow/*name               controllers.CurrencyRates.unfollow(name: String)
+GET         /followed                     controllers.CurrencyRates.my()
+
 # json test
 GET         /jsontest                     controllers.Application.jsonTest()

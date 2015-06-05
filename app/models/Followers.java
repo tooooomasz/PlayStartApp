@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
@@ -27,7 +28,14 @@ public class Followers extends Model {
     );
 
 
-    public static List<Followers> findAllFollowedByUser(String name) {
-        return finder.where().eq("name", name).findList();
+    public static List<Followers> findAllFollowedByUser(Long id) {
+        return finder.where().eq("userId", id).findList();
+    }
+
+    public static void unfollow(Long uid, Long erid) {
+        Followers relation = Followers.finder.where().eq("userId", uid).eq("exchangeRateId", erid).findUnique();
+        if (relation != null) {
+            Ebean.delete(relation);
+        }
     }
 }
