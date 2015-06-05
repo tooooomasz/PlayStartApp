@@ -2,6 +2,7 @@
 
 @if(user != null) {
     <ul class="nav navbar-nav navbar-right">
+        <li><a href="@routes.CurrencyRates.my()">Followed rates</a></li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> @user.fullname <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -11,4 +12,8 @@
             </ul>
         </li>
     </ul>
+} else {
+    <a href="@routes.Application.signInOrCreateAccount()">
+        <button type="button" class="btn btn-default navbar-btn navbar-right">Sign in / Create an account</button>
+    </a>
 }

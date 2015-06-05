@@ -46,3 +46,6 @@ GET         /followed                     controllers.CurrencyRates.my()
 
 # json test
 GET         /jsontest                     controllers.Application.jsonTest()
+
+# sign in or create account
+GET         /singInOrCreateAccount        controllers.Application.signInOrCreateAccount()

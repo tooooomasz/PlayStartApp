@@ -1,13 +1,13 @@
-@(names: List[String], values: List[Double], changes: List[Double])
+@(title: String, names: List[String], values: List[Double], changes: List[Double], user: User)
 
-@scripts = {
-  <script src="@routes.Assets.at("javascripts/password.js")" type="text/javascript"></script>
-}
+  @scripts = {
+    <script src="@routes.Assets.at("javascripts/password.js")" type="text/javascript"></script>
+  }
 
-@main(null, scripts) {
+@main(user, scripts) {
 
   @wflash()
-  <h2>All Currencies</h2>
+  <h2>@title</h2>
   <table class="table table-striped">
     <thead>
       <th>Name</th>

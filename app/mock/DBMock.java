@@ -18,26 +18,27 @@ public class DBMock {
         int daysBack = 100;
         db = new HashMap<String, RateHistory>();
         List<String> rates = new ArrayList<String>();
-        rates.add("USDCHF");
+        rates.add("PLNEUR");
         rates.add("PLNUSD");
-        rates.add("CHFPLN");
+        rates.add("PLNGBP");
+        rates.add("PLNCHF");
+        rates.add("USDEUR");
+        rates.add("EURCHF");
+        rates.add("USDGBP");
+        rates.add("EURGBP");
+
         for (String rate : rates) {
             db.put(rate, generateRateHistory(rate, daysBack));
         }
 
         if (ExchangeRate.finder.all().size() == 0) {
-            ExchangeRate er1 = new ExchangeRate();
-            er1.name = "USDCHF";
-            Ebean.save(er1);
-            ExchangeRate er2 = new ExchangeRate();
-            er2.name = "PLNUSD";
-            Ebean.save(er2);
-            ExchangeRate er3 = new ExchangeRate();
-            er3.name = "CHFPLN";
-            Ebean.save(er3);
+            for (String rate : rates) {
+                ExchangeRate er1 = new ExchangeRate();
+                er1.name = rate;
+                Ebean.save(er1);
+            }
         }
-
-        System.out.println(ExchangeRate.finder.all().size() + " rekordy w bazie");
+//        System.out.println(ExchangeRate.finder.all().size() + " rekordy w bazie.");
     }
 
     private static RateHistory generateRateHistory(String name, int daysBack) {

@@ -7,6 +7,7 @@ import mock.RateHistory;
 import models.ExchangeRate;
 import models.Followers;
 import models.User;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -43,7 +44,16 @@ public class CurrencyRates extends Controller {
             }
         }
 
-        return ok(rate.render(name, values, labels, changes));
+        String email = ctx().session().get("email");
+        if (email != null) {
+            User user = User.findByEmail(email);
+            ExchangeRate er = ExchangeRate.findByName(name);
+            boolean follower = Followers.checkFollower(user.id, er.id);
+            if (user != null && user.validated) {
+                return ok(rate.render(name, values, labels, changes, user, follower));
+            }
+        }
+        return ok(rate.render(name, values, labels, changes, null, null));
     }
 
     public static Result all() {
@@ -63,20 +73,47 @@ public class CurrencyRates extends Controller {
             changes.add(change);
         }
 
-        return ok(allRates.render(names, values, changes));
+        String title = "All rates";
+        String email = ctx().session().get("email");
+        if (email != null) {
+            User user = User.findByEmail(email);
+            if (user != null && user.validated) {
+                return ok(allRates.render(title, names, values, changes, user));
+            }
+        }
+        return ok(allRates.render(title, names, values, changes, null));
     }
 
     @Security.Authenticated(Secured.class)
-    //@BodyParser.Of(BodyParser.Json.class)
     public static Result my() {
-        ObjectNode result = Json.newObject();
+//        ObjectNode result = Json.newObject();
+//        User user = User.findByEmail(request().username());
+//        List<Followers> followed = Followers.findAllFollowedByUser(user.id);
+//        for (Followers f : followed) {
+//            ExchangeRate er = ExchangeRate.findById(f.exchangeRateId);
+//            result.put(er.id.toString(), er.name);
+//        }
+//        return ok(result);
+        List<String> names = new ArrayList<String>();
+        List<Double> values = new ArrayList<Double>();
+        List<Double> changes = new ArrayList<Double>();
+
         User user = User.findByEmail(request().username());
         List<Followers> followed = Followers.findAllFollowedByUser(user.id);
+
         for (Followers f : followed) {
-            ExchangeRate er = ExchangeRate.findById(f.exchangeRateId);
-            result.put(er.id.toString(), er.name);
+            String rate = ExchangeRate.findById(f.exchangeRateId).name;
+            RateHistory rh = DBMock.getRateHistory(rate);
+            names.add(rh.getName());
+            double last = rh.getValues().get(rh.getValues().size()-1);
+            values.add(rh.getValues().get(rh.getValues().size()-1));
+            double lastButOne = rh.getValues().get(rh.getValues().size()-2);
+            double change = 100 * (last - lastButOne) / lastButOne;
+            changes.add(change);
         }
-        return ok(result);
+
+        String title = "Followed rates";
+        return ok(allRates.render(title, names, values, changes, user));
     }
 
     @Security.Authenticated(Secured.class)

@@ -1,4 +1,4 @@
-title=PlayStartApp
+title=MyCurrency
 
 confirm=Confirmation
 email=Email
@@ -35,7 +35,7 @@ forgot.password=Forgot password ?
 
 signup.signup=Sign Up
 signup.successfull=Sign Up - Successful !
-signup.new=New ?
+signup.new=New?
 signup.reset.password=Reset your password
 signup.generate.password=Generate a password
 signup.msg.created=You will receive a confirmation email soon. Check your email to activate your account.
@@ -44,25 +44,25 @@ signup.valid.email=Invalid Email
 resetpassword=Reset Password
 resetpassword.mailsent=A mail has been sent, please check your mail.
 resetpassword.success=Your password has been reset.
-resetpassword.new.password=New password :
+resetpassword.new.password=New password:
 
 changemail.mailsent=A mail has been sent, please check your mail.
 
-mail.confirm.subject=Welcome to PlayStartApp - Ask for confirmation
-mail.confirm.message=Welcome to PlayStartApp. <br> Click on this link : {0} to confirm your email.
+mail.confirm.subject=Welcome to MyCurrency - Ask for confirmation
+mail.confirm.message=Welcome to MyCurrency. <br> Click on this link : {0} to confirm your email.
 
-mail.welcome.subject=Welcome to PlayStartApp
-mail.welcome.message=Welcome to PlayStartApp. <br> Your account is validated. Enjoy !
+mail.welcome.subject=Welcome to MyCurrency
+mail.welcome.message=Welcome to MyCurrency. <br> Your account is validated. Enjoy !
 
-mail.reset.ask.subject=PlayStartApp - New password
+mail.reset.ask.subject=MyCurrency - New password
 # Cannot use You've unescaped here, as the single quote stops the {0}
-mail.reset.ask.message=You asked for your password to be reset.  <br> Click on this link : {0} to change your password.
+mail.reset.ask.message=You asked for your password to be reset.  <br> Click on this <a href="{0}">link</a> to change your password.
 
-mail.change.ask.subject=PlayStartApp - Validate email
-mail.change.ask.message=You asked for your email to be changed.  <br> Click on this link : {0} to validate your email.
+mail.change.ask.subject=MyCurrency - Validate email
+mail.change.ask.message=You asked for your email to be changed.  <br> Click on this <a href="{0}">link</a> to validate your email.
 
 mail.reset.fail.subject=Account Access Attempted
 mail.reset.fail.message=You (or someone else) entered this email address when trying to change the password.  However, this email address is not on our list of registered users, and so the attempted password reset has failed.
 
-mail.reset.confirm.subject=PlayStartApp - New password
+mail.reset.confirm.subject=MyCurrency - New password
 mail.reset.confirm.message=Hello, <br><br> Your password has been reset.

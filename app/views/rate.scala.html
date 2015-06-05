@@ -1,13 +1,24 @@
-@(name: String, values: List[Double], labels: List[String], changes: List[Double])
+@(name: String, values: List[Double], labels: List[String], changes: List[Double], user: User, follower: Boolean)
 
 @scripts = {
   <script src="@routes.Assets.at("javascripts/password.js")" type="text/javascript"></script>
 }
 
-@main(null, scripts) {
+@main(user, scripts) {
 
   @wflash()
   <h2>@name</h2>
+  @if(follower != null) {
+    @if(follower) {
+      <a href="@routes.CurrencyRates.unfollow(name)">
+        <button type="button" class="btn btn-default navbar-btn navbar-right">Unfollow</button>
+      </a>
+    } else {
+      <a href="@routes.CurrencyRates.follow(name)">
+        <button type="button" class="btn btn-default navbar-btn navbar-right">Follow</button>
+      </a>
+    }
+  }
 
   <table class="table table-striped">
     <thead>

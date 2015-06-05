@@ -25,9 +25,9 @@ public class Application extends Controller {
             routes.Application.index()
     );
 
-    public static Result GO_DASHBOARD = redirect(
-            routes.Dashboard.index()
-    );
+//    public static Result GO_DASHBOARD = redirect(
+//            routes.Dashboard.index()
+//    );
 
     /**
      * Display the login page or dashboard if connected
@@ -36,18 +36,19 @@ public class Application extends Controller {
      */
     public static Result index() {
         // Check that the email matches a confirmed user before we redirect
-        String email = ctx().session().get("email");
-        if (email != null) {
-            User user = User.findByEmail(email);
-            if (user != null && user.validated) {
-                return GO_DASHBOARD;
-            } else {
-                Logger.debug("Clearing invalid session credentials");
-                session().clear();
-            }
-        }
+//        String email = ctx().session().get("email");
+//        if (email != null) {
+//            User user = User.findByEmail(email);
+//            if (user != null && user.validated) {
+//                return GO_DASHBOARD;
+//            } else {
+//                Logger.debug("Clearing invalid session credentials");
+//                session().clear();
+//            }
+//        }
 
-        return ok(index.render(form(Register.class), form(Login.class)));
+        //return ok(index.render(form(Register.class), form(Login.class)));
+        return CurrencyRates.all();
     }
 
     /**
@@ -134,7 +135,7 @@ public class Application extends Controller {
             return badRequest(index.render(registerForm, loginForm));
         } else {
             session("email", loginForm.get().email);
-            return GO_DASHBOARD;
+            return GO_HOME;
         }
     }
 
@@ -153,6 +154,20 @@ public class Application extends Controller {
         ObjectNode result = Json.newObject();
         result.put("test", DBMock.getAllRateNames().size());
         return ok(result);
+    }
+
+    public static Result signInOrCreateAccount() {
+        String email = ctx().session().get("email");
+        if (email != null) {
+            User user = User.findByEmail(email);
+            if (user != null && user.validated) {
+                return GO_HOME;
+            } else {
+                Logger.debug("Clearing invalid session credentials");
+                session().clear();
+            }
+        }
+        return ok(index.render(form(Register.class), form(Login.class)));
     }
 
 }

@@ -38,4 +38,13 @@ public class Followers extends Model {
             Ebean.delete(relation);
         }
     }
+
+    public static boolean checkFollower(Long uid, Long erid) {
+        Followers relation = finder.where().eq("userId", uid).eq("exchangeRateId", erid).findUnique();
+        if (relation != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
