@@ -7,33 +7,42 @@
 @main(user, scripts) {
 
   @wflash()
-  <h2>@name</h2>
-  @if(follower != null) {
-    @if(follower) {
-      <a href="@routes.CurrencyRates.unfollow(name)">
-        <button type="button" class="btn btn-default navbar-btn navbar-right">Unfollow</button>
-      </a>
-    } else {
-      <a href="@routes.CurrencyRates.follow(name)">
-        <button type="button" class="btn btn-default navbar-btn navbar-right">Follow</button>
-      </a>
-    }
-  }
-
-  <table class="table table-striped">
-    <thead>
-      <th>Date</th>
-      <th>Value</th>
-      <th>Change</th>
-    </thead>
-    <tbody>
-    @for(i <- 0 to values.length-1) {
-      <tr>
-        <td>@labels(i)</td>
-        <td>@("%.5f".format(values(i)))</td>
-        <td>@("%.2f".format(changes(i)))%</td>
-      </tr>
-    }
-    </tbody>
-  </table>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-11">
+        <h2>@name</h2>
+      </div>
+      <div class="col-md-1">
+        @if(follower != null) {
+          @if(follower) {
+            <a href="@routes.CurrencyRates.unfollow(name)">
+              <button type="button" class="btn btn-danger vbottom">Unfollow</button>
+            </a>
+          } else {
+            <a href="@routes.CurrencyRates.follow(name)">
+              <button type="button" class="btn btn-success vbottom">Follow</button>
+            </a>
+          }
+        }
+      </div>
+    </div>
+    <div class="row">
+      <table class="table table-striped">
+        <thead>
+          <th>Date</th>
+          <th>Value</th>
+          <th>Change</th>
+        </thead>
+        <tbody>
+        @for(i <- 0 to values.length-1) {
+          <tr>
+            <td>@labels(i)</td>
+            <td>@("%.5f".format(values(i)))</td>
+            <td>@("%.2f".format(changes(i)))%</td>
+          </tr>
+        }
+        </tbody>
+      </table>
+    </div>
+  </div>
 }
