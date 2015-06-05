@@ -48,8 +48,8 @@ public class CurrencyRates extends Controller {
         if (email != null) {
             User user = User.findByEmail(email);
             ExchangeRate er = ExchangeRate.findByName(name);
-            boolean follower = Followers.checkFollower(user.id, er.id);
             if (user != null && user.validated) {
+                boolean follower = Followers.checkFollower(user.id, er.id);
                 return ok(rate.render(name, values, labels, changes, user, follower));
             }
         }
@@ -86,14 +86,6 @@ public class CurrencyRates extends Controller {
 
     @Security.Authenticated(Secured.class)
     public static Result my() {
-//        ObjectNode result = Json.newObject();
-//        User user = User.findByEmail(request().username());
-//        List<Followers> followed = Followers.findAllFollowedByUser(user.id);
-//        for (Followers f : followed) {
-//            ExchangeRate er = ExchangeRate.findById(f.exchangeRateId);
-//            result.put(er.id.toString(), er.name);
-//        }
-//        return ok(result);
         List<String> names = new ArrayList<String>();
         List<Double> values = new ArrayList<Double>();
         List<Double> changes = new ArrayList<Double>();
@@ -120,12 +112,14 @@ public class CurrencyRates extends Controller {
     public static Result follow(String rateName) {
         User user = User.findByEmail(request().username());
         ExchangeRate exchangeRate = ExchangeRate.findByName(rateName);
+        if (Followers.checkFollower(user.id, exchangeRate.id)) {
+            return details(rateName);
+        }
         Followers f = new Followers();
         f.userId = user.id;
         f.exchangeRateId = exchangeRate.id;
         Ebean.save(f);
-        // TODO do zmiany
-        return all();
+        return details(rateName);
     }
 
     @Security.Authenticated(Secured.class)
@@ -133,6 +127,6 @@ public class CurrencyRates extends Controller {
         User user = User.findByEmail(request().username());
         ExchangeRate exchangeRate = ExchangeRate.findByName(rateName);
         Followers.unfollow(user.id, exchangeRate.id);
-        return all();
+        return details(rateName);
     }
 }

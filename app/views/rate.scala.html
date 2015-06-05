@@ -45,7 +45,11 @@ console.log(labs)
               <tr>
                 <td>@labels(i)</td>
                 <td>@("%.5f".format(values(i)))</td>
-                <td>@("%.2f".format(changes(i)))%</td>
+                  @if(changes(i) >= 0) {
+                      <td><font color="#00CC00">@("%.2f".format(changes(i)))%</font></td>
+                  } else {
+                      <td><font color="red">@("%.2f".format(changes(i)))%</font></td>
+                  }
               </tr>
             }
             </tbody>
