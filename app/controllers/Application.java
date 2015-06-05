@@ -1,11 +1,14 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import mock.DBMock;
 import models.User;
 import models.utils.AppException;
 import play.Logger;
 import play.data.Form;
 import play.data.validation.Constraints;
 import play.i18n.Messages;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
@@ -144,6 +147,12 @@ public class Application extends Controller {
         session().clear();
         flash("success", Messages.get("youve.been.logged.out"));
         return GO_HOME;
+    }
+
+    public static Result jsonTest() {
+        ObjectNode result = Json.newObject();
+        result.put("test", DBMock.getAllRateNames().size());
+        return ok(result);
     }
 
 }
