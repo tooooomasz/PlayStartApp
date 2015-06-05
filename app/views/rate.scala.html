@@ -1,0 +1,28 @@
+@(name: String, values: List[Double], labels: List[String], changes: List[Double])
+
+@scripts = {
+  <script src="@routes.Assets.at("javascripts/password.js")" type="text/javascript"></script>
+}
+
+@main(null, scripts) {
+
+  @wflash()
+  <h2>@name</h2>
+
+  <table class="table table-striped">
+    <thead>
+      <th>Date</th>
+      <th>Value</th>
+      <th>Change</th>
+    </thead>
+    <tbody>
+    @for(i <- 0 to values.length-1) {
+      <tr>
+        <td>@labels(i)</td>
+        <td>@("%.5f".format(values(i)))</td>
+        <td>@("%.2f".format(changes(i)))%</td>
+      </tr>
+    }
+    </tbody>
+  </table>
+}
